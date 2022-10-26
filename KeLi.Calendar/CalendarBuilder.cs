@@ -5,7 +5,7 @@ using static System.DateTime;
 
 namespace KeLi.Calendar
 {
-    public class CalendarHelper
+    internal class CalendarBuilder
     {
         private static int year;
 
@@ -16,22 +16,19 @@ namespace KeLi.Calendar
         public static void ShowCalendar()
         {
             ShowCurrentMonth(true);
-
             SearchAnyMonth();
-
             Thread.Sleep(3000);
 
             for (var i = 0; i < 100000; i++)
             {
                 Console.Clear();
-
                 ShowCurrentMonth();
-
                 Console.WriteLine();
-
                 ShowAnyMonth();
 
-                var seek = new Random((int)(Now.Ticks & 0xffffffffL) | (int)(Now.Ticks >> 32)).Next(10) * 100;
+                var seed1 = (int)(Now.Ticks & 0xffffffffL);
+                var seed2 = (int)(Now.Ticks >> 32);
+                var seek = new Random(seed1 | seed2).Next(10) * 100;
 
                 Thread.Sleep(seek);
             }
@@ -42,7 +39,6 @@ namespace KeLi.Calendar
             while (true)
             {
                 Console.SetCursorPosition(0, CalendarUtil.ComputeCurrentMonthLine());
-
                 Console.Write("Inputs Year[1-9999]: ");
 
                 year = Convert.ToInt32(Console.ReadLine());
@@ -54,7 +50,6 @@ namespace KeLi.Calendar
             while (true)
             {
                 Console.SetCursorPosition(0, CalendarUtil.ComputeCurrentMonthLine() + 1);
-
                 Console.Write("Inputs Month[1-12]: ");
 
                 month = Convert.ToInt32(Console.ReadLine());
@@ -64,7 +59,6 @@ namespace KeLi.Calendar
             }
 
             Console.WriteLine();
-
             height = CalendarUtil.ComputeCurrentMonthLine() + CalendarUtil.ComputeAnyMonthLine(year, month) + 2;
 
             // Updates console's window height.

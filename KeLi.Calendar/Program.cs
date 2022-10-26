@@ -2,11 +2,11 @@
 
 namespace KeLi.Calendar
 {
-    public class Program
+    internal class Program
     {
-        public static void Main()
+        internal static void Main()
         {
-            Console.Title = "Calendar";
+            Console.Title = nameof(Calendar);
             Console.WindowWidth = 26;
             Console.WindowHeight = 29;
             Console.BufferWidth = 26;
@@ -14,12 +14,11 @@ namespace KeLi.Calendar
 
             try
             {
-                CalendarHelper.ShowCalendar();
+                CalendarBuilder.ShowCalendar();
             }
-
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine("Error: {0}", ex.Message);
+                Console.WriteLine(e.Message);
             }
 
             Console.ReadKey();

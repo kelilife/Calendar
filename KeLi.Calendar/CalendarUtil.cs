@@ -5,9 +5,9 @@ using System.Threading;
 
 namespace KeLi.Calendar
 {
-    public class CalendarUtil
+    internal class CalendarUtil
     {
-        public static void ShowCurrentMonth(bool flag = false)
+        internal static void ShowCurrentMonth(bool flag = false)
         {
             var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
@@ -69,26 +69,22 @@ namespace KeLi.Calendar
             Console.WriteLine();
         }
 
-        public static void ShowAnyMonth(int year, int month, bool flag = false, int height = 0)
+        internal static void ShowAnyMonth(int year, int month, bool flag = false, int height = 0)
         {
-            if (year < 0 && year > 9999 || month < 0 || month > 12)
+            if (year < 0 || year > 9999 || month < 0 || month > 12)
                 throw new InvalidDataException();
 
             if (!flag)
             {
                 Console.WindowHeight = height - 2;
-
                 Console.BufferHeight = height - 2;
             }
 
             var date = new DateTime(year, month, 1);
-
             var week = (int)date.DayOfWeek;
-
             var dayNum = date.AddMonths(1).AddDays(-1).Day;
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
-
             Console.WriteLine("SU  MO  TU  WE  TH  FR  SA");
 
             for (var i = 0; i < week; i++)
@@ -97,10 +93,10 @@ namespace KeLi.Calendar
             for (var i = 1; i <= dayNum; i++)
             {
                 var colors = ((ConsoleColor[])Enum.GetValues(typeof(ConsoleColor))).ToList();
+                var index = new Random(DateTime.Now.Millisecond + i).Next(0, colors.Count);
 
                 colors.Remove(ConsoleColor.Black);
-
-                Console.ForegroundColor = colors[new Random(DateTime.Now.Millisecond + i).Next(0, colors.Count)];
+                Console.ForegroundColor = colors[index];
 
                 if (flag)
                     Thread.Sleep(100);
@@ -112,7 +108,7 @@ namespace KeLi.Calendar
             }
         }
 
-        public static int ComputeCurrentMonthLine()
+        internal static int ComputeCurrentMonthLine()
         {
             var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
@@ -125,17 +121,14 @@ namespace KeLi.Calendar
             return 2 * lineNum + 2;
         }
 
-        public static int ComputeAnyMonthLine(int year, int month)
+        internal static int ComputeAnyMonthLine(int year, int month)
         {
-            if (year < 0 && year > 9999 || month < 0 || month > 12)
+            if (year < 0 || year > 9999 || month < 0 || month > 12)
                 throw new InvalidDataException();
 
             var date = new DateTime(year, month, 1);
-
             var week = (int)date.DayOfWeek;
-
             var dayNum = date.AddMonths(1).AddDays(-1).Day;
-
             var lineNum = 1 + (dayNum - 7 + week) / 7 + ((dayNum - 7 + week) % 7 == 0 ? 0 : 1);
 
             return 2 * lineNum + 2;

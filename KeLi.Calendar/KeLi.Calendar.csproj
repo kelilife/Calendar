@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalendarUtil.cs" />
-    <Compile Include="CalendarHelper.cs" />
+    <Compile Include="CalendarBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
